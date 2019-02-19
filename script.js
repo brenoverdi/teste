@@ -1,24 +1,34 @@
-var request = new XMLHttpRequest();
+const app = document.getElementById('root');
 
-request.withCredentials = true;
-request.setRequestHeader('Access-Control-Allow-Origin', "*");
-request.setRequestHeader("Content-Type", "application/json");
-request.setRequestHeader("Access-Control-Allow-Headers", "accept, content-type");
-request.setRequestHeader('Authorization', 'Bearer 1toYMIMOGgxs3tEn3w3M2jIuhKgVNWCs');
-request.open('GET', 'https://sagah.blackboard.com/learn/api/public/v1/users/', true);
-request.onload = function() {
-	
-	var data = JSON.parse(this.response);
-	 if (request.status >= 200 && request.status < 400) {
-    data.forEach(users => {
-  	const h1 = document.createElement('h1');
-  	h1.textContent = results.userName;
+const container = document.createElement('div');
+container.setAttribute('class', 'container');
 
-     console.log(results.userName);
+app.appendChild(container);
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://sagah.blackboard.com/learn/api/public/v1/users/");
+xhr.setRequestHeader("authorization", "Bearer 1jcMIC5N83hQJEIvgJfwnGJcNdIfe1wvS");
+xhr.onload = function () {
+
+  // Begin accessing JSON data here
+  var data = JSON.parse(this.response);
+  if (xhr.status >= 200 && xhr.status < 400) {
+    data.forEach(results => {
+      const card = document.createElement('div');
+      card.setAttribute('class', 'card');
+
+      const h1 = document.createElement('h1');
+      h1.textContent = results.userName;
+
+      container.appendChild(card);
+      card.appendChild(h1);
+      card.appendChild(p);
     });
   } else {
-    console.log('error');
+    const errorMessage = document.createElement('marquee');
+    errorMessage.textContent = `Gah, it's not working!`;
+    app.appendChild(errorMessage);
   }
 }
 
-request.send();
+xhr.send();
